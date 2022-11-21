@@ -15,6 +15,8 @@ interface PatientAppointmentAttribute {
   commentBefore: string;
   commentAfter: string;
   appointmentStatus: string;
+  appointmentDate: Date;
+  bookingDate: Date;
 }
 
 /**
@@ -71,6 +73,14 @@ PatientAppointmentInstance.init(
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
+    },
+    appointmentDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    bookingDate: {
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
     },
   },
   {
