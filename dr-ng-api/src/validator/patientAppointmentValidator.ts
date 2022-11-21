@@ -47,6 +47,11 @@ class PatientAppointmentValidator {
         .isBoolean()
         .withMessage("Is first time must be true of false")
         .default(false),
+      body("appointmentDate")
+        .notEmpty()
+        .withMessage("The appointment date is required")
+        .isDate()
+        .withMessage("The appointment date most be a date"),
     ];
   }
   checkUpdatePatientAppointment() {
@@ -98,6 +103,10 @@ class PatientAppointmentValidator {
         .optional()
         .isBoolean()
         .withMessage("Is first time must be true of false"),
+      body("appointmentDate")
+        .optional()
+        .isDate()
+        .withMessage("The appointment date most be a date"),
     ];
   }
   checkDeleteAndGetById() {
