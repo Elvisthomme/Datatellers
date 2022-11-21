@@ -1,7 +1,7 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 
 class PatientAppointmentValidator {
-  checkCreateTodo() {
+  checkCreatePatientAppointment() {
     return [
       body("patientName")
         .notEmpty()
@@ -111,7 +111,7 @@ class PatientAppointmentValidator {
   }
   checkDeleteAndGetById() {
     return [
-      body("id")
+      param("id")
         .notEmpty()
         .withMessage("The patient id is required")
         .isInt()
@@ -120,10 +120,7 @@ class PatientAppointmentValidator {
   }
   checkPage() {
     return [
-      body("page")
-        .optional()
-        .isInt()
-        .withMessage("The page must be a number"),
+      param("page").optional().isInt().withMessage("The page must be a number"),
     ];
   }
 }

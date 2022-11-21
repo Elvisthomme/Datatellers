@@ -34,8 +34,6 @@ PatientAppointmentInstance.init(
     },
     uniqueCode: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
       comment: "a unique code of the format A[SN][DD][MM][YY]",
     },
     patientName: {
