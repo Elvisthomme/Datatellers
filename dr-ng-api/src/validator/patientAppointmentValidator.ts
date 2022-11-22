@@ -52,6 +52,11 @@ class PatientAppointmentValidator {
         .withMessage("The appointment date is required")
         .isDate()
         .withMessage("The appointment date most be a date"),
+      body("appointmentTime")
+        .notEmpty()
+        .withMessage("The appointment time is required")
+        .isDate()
+        .withMessage("The appointment time most be a date"),
     ];
   }
   checkUpdatePatientAppointment() {

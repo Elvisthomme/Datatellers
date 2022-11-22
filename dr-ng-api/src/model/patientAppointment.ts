@@ -16,6 +16,7 @@ interface PatientAppointmentAttribute {
   commentAfter: string;
   appointmentStatus: string;
   appointmentDate: Date;
+  appointmentTime: Date;
   bookingDate: Date;
 }
 
@@ -79,6 +80,9 @@ PatientAppointmentInstance.init(
     bookingDate: {
       type: DataTypes.DATE,
       defaultValue: new Date(),
+    },
+    appointmentTime: {
+      type: DataTypes.DATE,
     },
   },
   {

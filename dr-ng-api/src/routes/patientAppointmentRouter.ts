@@ -9,30 +9,44 @@ const pageSize = 10;
 
 router.get(
   endPoint,
-  validator.checkPage(),
-  validationMiddleWare.handleValidationError,
+  // validator.checkPage(),
+  // validationMiddleWare.handleValidationError,
   async (req: Request, res: Response) => {
     try {
-      let page = req.query?.page as number | undefined;
-      if (page == undefined) page = 1;
-      const offset = (page - 1) * pageSize;
+      // let page = req.query?.page as number | undefined;
+      // if (page == undefined) page = 1;
+      // const offset = (page - 1) * pageSize;
       const records = await PatientAppointmentInstance.findAll({
         where: {},
-        offset: offset,
-        limit: pageSize,
+        // offset: offset,
+        // limit: pageSize,
       });
-      const total = await PatientAppointmentInstance.count();
-      if (total == 0) {
-        return res.status(404).json({ message: "no record" });
-      }
-      return res.json({ data: records, total: total });
+      const missedCount = records.filter(
+        (e) => e.dataValues.appointmentStatus == "missed"
+      ).length;
+      const rescheduledCount = records.filter(
+        (e) => e.dataValues.appointmentStatus == "rescheduled"
+      ).length;
+      const passedCount = records.filter(
+        (e) => e.dataValues.appointmentStatus == "passed"
+      ).length;
+      const total = await records.length;
+      // if (total == 0) {
+      //   return res.status(404).json({ message: "no record" });
+      // }
+      // return res.json({ data: records, total: total });
+      return res.json({
+        data: records,
+        missed: missedCount,
+        passed: passedCount,
+        total: total,
+        rescheduled: rescheduledCount,
+      });
     } catch (error) {
-      return res
-        .status(500)
-        .json({
-          message: "fail to read patient appointment",
-          endPoint: endPoint,
-        });
+      return res.status(500).json({
+        message: "fail to read patient appointment",
+        endPoint: endPoint,
+      });
     }
   }
 );
@@ -48,15 +62,11 @@ router.get(
         where: { id },
       });
       if (!record) {
-        return res.status(404)
-          .json({ message: `no record with the id ${id}` })
-          ;
+        return res.status(404).json({ message: `no record with the id ${id}` });
       }
       return res.json(record);
     } catch (error) {
-      return res.status(500)
-        .json({ message: "fail to read", error: error })
-        ;
+      return res.status(500).json({ message: "fail to read", error: error });
     }
   }
 );
@@ -82,9 +92,9 @@ router.post(
       });
       return res.status(201).json(record);
     } catch (error) {
-      return res.status(500)
-        .json({ message: "fail to create appointment", error: error })
-        ;
+      return res
+        .status(500)
+        .json({ message: "fail to create appointment", error: error });
     }
   }
 );
@@ -100,18 +110,14 @@ router.put(
         where: { id },
       });
       if (!record) {
-        return res
-          .status(404)
-          .json({
-            message: `no record with the id ${id}`,
-          });
+        return res.status(404).json({
+          message: `no record with the id ${id}`,
+        });
       }
       record.update({ ...req.body });
       return res.json(record);
     } catch (error) {
-      return res.status(500)
-        .json({ message: "fail to create appointment" })
-        ;
+      return res.status(500).json({ message: "fail to create appointment" });
     }
   }
 );
