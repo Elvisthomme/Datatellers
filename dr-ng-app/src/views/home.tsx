@@ -1,4 +1,4 @@
-import { Button, Col, Layout, Menu, Pagination, Row } from "antd";
+import { Col, Layout, Pagination, Row } from "antd";
 import Search from "antd/es/input/Search";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import { FC, useEffect } from "react";
@@ -7,6 +7,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import PatientAppointmentTable from "../components/patient-appointment-table";
 import { useAppDispatch, useAppSelector } from "../hooks/useTypedSelector";
 import { fetchPatientAppointments } from "../features/patient-appointment/patientAppointmentSlice";
+import { Link } from "react-router-dom";
 
 const Home: FC = () => {
   const dispatch = useAppDispatch();
@@ -181,7 +182,8 @@ const Home: FC = () => {
               />
             </Col>
             <Col span={6}>
-              <Button
+              <Link
+                to={"create-appointment"}
                 style={{
                   color: "white",
                   backgroundColor: red[2],
@@ -190,10 +192,9 @@ const Home: FC = () => {
                   padding: 0,
                   boxShadow: "-0.5px 0.5px #888888",
                 }}
-                onClick={(event) => {}}
               >
                 <PlusOutlined />
-              </Button>
+              </Link>
             </Col>
           </Row>
         </div>
